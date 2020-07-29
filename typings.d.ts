@@ -11,6 +11,7 @@ declare module 'fastify' {
   interface Reply extends FastifyReply<ServerResponse> { }
   interface FastifyInstance {
     Knex: Knex;
+    db: Knex;
   }
 }
 

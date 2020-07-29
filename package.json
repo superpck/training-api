@@ -1,6 +1,6 @@
 {
-  "name": "rest-api",
-  "version": "0.1.0",
+  "name": "trining",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "npx ts-node ./src/app.ts",
@@ -17,6 +17,7 @@
     "fastify-jwt": "^1.4.0",
     "fastify-knexjs": "^1.0.14",
     "fastify-no-icon": "^3.0.0",
+    "fastify-plugin": "^2.0.3",
     "fastify-rate-limit": "^3.0.1",
     "fastify-session": "^4.0.0",
     "fastify-static": "^2.7.0",

@@ -2,7 +2,7 @@
 
 import * as Knex from 'knex';
 import * as fastify from 'fastify';
-import * as http from 'http'
+import * as moment from 'moment';
 
 import { UserModel } from '../models/user';
 
@@ -10,11 +10,11 @@ const userModel = new UserModel();
 
 const router = (fastify, { }, next) => {
 
-  var db: Knex = fastify.knex;
+  var db: Knex = fastify.db;
 
-  fastify.get('/hello', async (req: fastify.Request, reply: fastify.Reply) => {
-    req.log.info('hello');
-    reply.send({ hello: 'world' });
+  fastify.get('/', async (req: fastify.Request, reply: fastify.Reply) => {
+    console.log(db);
+    reply.send({ date: moment(),db });
   })
 
   fastify.get('/sign-token', async (req: Request, reply: fastify.Reply) => {
@@ -23,7 +23,7 @@ const router = (fastify, { }, next) => {
   })
 
   fastify.get('/test-db', {
-    beforeHandler: [fastify.authenticate]
+    preHandler: [fastify.authenticate]
   }, async (req: fastify.Request, reply: fastify.Reply) => {
     console.log(req.user);
     try {
