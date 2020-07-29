@@ -8,7 +8,7 @@ import { UsersModel } from '../models/users';
 var usersModel = new UsersModel();
 
 const router = (fastify, { }, next) => {
-  var db: Knex = fastify.db;
+  var db: Knex = fastify.knex;
 
   fastify.get('/', async (req: fastify.Request, reply: fastify.Reply) => {
     const usersList: any = await usersModel.getUser(db);

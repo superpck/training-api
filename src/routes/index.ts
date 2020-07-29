@@ -4,10 +4,6 @@ import * as Knex from 'knex';
 import * as fastify from 'fastify';
 import * as moment from 'moment';
 
-import { UserModel } from '../models/users';
-
-const userModel = new UserModel();
-
 const router = (fastify, { }, next) => {
 
   var db: Knex = fastify.db;
