@@ -4,12 +4,16 @@ export class UsersModel {
 
   getUser(db: Knex, columnSearch = null, searchValue = null) {
     let where: any = {};
-    if (columnSearch && searchValue){
+    if (columnSearch && searchValue) {
       where[columnSearch] = searchValue;
     }
+
     return db('users')
-      .select('uid', 'username', 'fname')
-      .where(where);
+      .where(where)
+      .orderBy('fname')
+      .orderBy('lname')
+      .limit(5);
+
   }
 
 }
