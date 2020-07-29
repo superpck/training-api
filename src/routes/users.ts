@@ -10,8 +10,11 @@ var usersModel = new UsersModel();
 const router = (fastify, { }, next) => {
   var db: Knex = fastify.knex;
 
-  fastify.get('/', async (req: fastify.Request, reply: fastify.Reply) => {
-    const usersList: any = await usersModel.getUser(db);
+  fastify.post('/', async (req: fastify.Request, reply: fastify.Reply) => {
+    const column = req.body.column;
+    const value = req.body.value;
+
+    const usersList: any = await usersModel.getUser(db, column, value);
     reply.send({
       rows: usersList,
     });
