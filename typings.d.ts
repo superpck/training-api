@@ -12,6 +12,7 @@ declare module 'fastify' {
   interface FastifyInstance {
     Knex: Knex;
     db: Knex;
+    dbHDC: Knex;
   }
 }
 

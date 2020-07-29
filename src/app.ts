@@ -1,10 +1,8 @@
 /// <reference path="../typings.d.ts" />
 
 import path = require('path');
-import * as http from 'http'
 import * as HttpStatus from 'http-status-codes';
 import * as fastify from 'fastify';
-import * as Knex from 'knex';
 
 require('dotenv').config({ path: path.join(__dirname, '../config') });
 
@@ -74,7 +72,7 @@ app.register(require('fastify-knexjs'), {
   }
 });
 
-// ISOnline connection =========================================
+// connection =========================================
 app.register(require('./plugins/db'), {
   connection: {
     client: process.env.DB_CLIENT,
@@ -91,6 +89,7 @@ app.register(require('./plugins/db'), {
 });
 
 app.register(require('./routes/index'), { prefix: '/', logger: true });
+app.register(require('./routes/users'), { prefix: '/users', logger: true });
 
 const port = +process.env.PORT || 3000;
 

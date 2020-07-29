@@ -4,7 +4,7 @@ import * as Knex from 'knex';
 import * as fastify from 'fastify';
 import * as moment from 'moment';
 
-import { UserModel } from '../models/user';
+import { UserModel } from '../models/users';
 
 const userModel = new UserModel();
 
@@ -14,26 +14,37 @@ const router = (fastify, { }, next) => {
 
   fastify.get('/', async (req: fastify.Request, reply: fastify.Reply) => {
     console.log(db);
-    reply.send({ date: moment(),db });
+    reply.send({
+      method: 'GET',
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      date2: moment().locale('th').format('lll'),
+    });
+  })
+
+  fastify.post('/', async (req: fastify.Request, reply: fastify.Reply) => {
+    console.log(db);
+    reply.send({
+      method: 'post',
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      date2: moment().locale('th').format('lll'),
+    });
   })
 
   fastify.get('/sign-token', async (req: Request, reply: fastify.Reply) => {
-    const token = fastify.jwt.sign({ foo: 'bar' }, { expiresIn: '1d' });
-    reply.send({ token: token });
+    const token = fastify.jwt.sign(
+      { 
+        name: 'test ระบบ',
+        username: 'myID'
+      }, 
+      { expiresIn: '8h' }
+      );
+    reply.send({ 
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      token: token 
+    });
   })
 
-  fastify.get('/test-db', {
-    preHandler: [fastify.authenticate]
-  }, async (req: fastify.Request, reply: fastify.Reply) => {
-    console.log(req.user);
-    try {
-      var rs = await userModel.getUser(db);
-      reply.code(200).send({ ok: true, rows: rs });
-    } catch (error) {
-      req.log.error(error);
-      reply.code(500).send({ ok: false, error: error.message });
-    }
-  });
+  
 
   next();
 
