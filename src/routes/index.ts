@@ -9,7 +9,6 @@ const router = (fastify, { }, next) => {
   var db: Knex = fastify.db;
 
   fastify.get('/', async (req: fastify.Request, reply: fastify.Reply) => {
-    console.log(db);
     reply.send({
       method: 'GET',
       date: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -18,7 +17,6 @@ const router = (fastify, { }, next) => {
   })
 
   fastify.post('/', async (req: fastify.Request, reply: fastify.Reply) => {
-    console.log(db);
     reply.send({
       method: 'post',
       date: moment().format('YYYY-MM-DD HH:mm:ss'),
