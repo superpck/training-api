@@ -16,4 +16,29 @@ export class UsersModel {
 
   }
 
+  saveUser(db: Knex, data: any = {}) {
+    const uid = +data.uid || 0;
+    delete data.uid;
+    if (uid > 0) {
+      return db('users')
+        .update(data)
+        .where({ uid });
+    } else {
+      return db('users')
+        .insert(data);
+    }
+  }
+
+  deleteUser(db: Knex, uid) {
+    return db('users')
+      .del()
+      .where({ uid });
+  }
+
+  login(db: Knex, username: string, password: string) {
+    return db('users')
+      .where({ username, password })
+      .limit(1);
+  }
+
 }
