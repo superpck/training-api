@@ -65,6 +65,31 @@ const router = (fastify, { }, next) => {
     }
   })
 
+  fastify.post('/save', async (request: fastify.Request, reply: fastify.Reply) => {
+    const data = request.body.data;
+
+    if (data) {
+      try {
+        const result: any = await usersModel.saveUser(db, data);
+        reply.send({
+          statusCode: HttpStatus.OK,
+          result
+        });
+      } catch (error) {
+        reply.send({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: error.message
+        });
+      }
+    } else {
+      reply.send({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'Invalid parameter'
+      });
+    }
+
+  })
+
   next();
 }
 
