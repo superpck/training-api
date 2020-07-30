@@ -44,8 +44,6 @@ app.decorate("authenticate", async (request, reply) => {
 
   if (request.headers.authorization && request.headers.authorization.split(' ')[0] === 'Bearer') {
     token = request.headers.authorization.split(' ')[1];
-  } else if (request.query && request.query.token) {
-    token = request.query.token;
   } else {
     token = request.body.token;
   }
