@@ -8,7 +8,7 @@ import { UsersModel } from '../models/users';
 var usersModel = new UsersModel();
 
 const router = (fastify, { }, next) => {
-  var db: Knex = fastify.knex;
+  var db: Knex = fastify.db;
 
   fastify.post('/', async (request: fastify.Request, reply: fastify.Reply) => {
     const column = request.body.column;

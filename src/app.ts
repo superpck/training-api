@@ -10,11 +10,11 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 
 import helmet = require('fastify-helmet');
 
-const app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ 
-  logger: { 
-    level: 'error' 
-  }, 
-  bodyLimit: 5 * 1048576 
+const app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({
+  logger: {
+    level: 'error'
+  },
+  bodyLimit: 5 * 1048576
 });
 
 app.register(require('fastify-formbody'));
@@ -76,14 +76,16 @@ app.register(require('fastify-knexjs'), {
 app.register(require('./plugins/db'), {
   connection: {
     client: process.env.DB_CLIENT,
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    dbName: process.env.DB_NAME,
-    port: process.env.DB_PORT,
-    schema: process.env.DB_SCHEMA,
-    charSet: process.env.DB_CHARSET,
-    encrypt: process.env.DB_ENCRYPT || true
+    connection: {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
+      schema: process.env.DB_SCHEMA,
+      charSet: process.env.DB_CHARSET,
+      encrypt: process.env.DB_ENCRYPT || true
+    }
   },
   connectionName: 'db'
 });
