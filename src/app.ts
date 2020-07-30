@@ -55,8 +55,7 @@ app.decorate("authenticate", async (request, reply) => {
   } catch (err) {
     reply.status(HttpStatus.UNAUTHORIZED).send({
       statusCode: HttpStatus.UNAUTHORIZED,
-      error: HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED),
-      message: 'Access denied!'
+      message: HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED)
     })
   }
 });

@@ -29,7 +29,7 @@ export class UsersModel {
     }
   }
 
-  deleteUser(db: Knex, uid) {
+  deleteUser(db: Knex, uid: number) {
     return db('users')
       .del()
       .where({ uid });

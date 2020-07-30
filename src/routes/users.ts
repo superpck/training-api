@@ -13,7 +13,7 @@ var usersModel = new UsersModel();
 const router = (fastify, { }, next) => {
   var db: Knex = fastify.db;
 
-  fastify.post('/', async (request: fastify.Request, reply: fastify.Reply) => {
+  fastify.post('/', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
     const column = request.body.column;
     const value = request.body.value;
 
@@ -65,7 +65,7 @@ const router = (fastify, { }, next) => {
     }
   })
 
-  fastify.post('/save', async (request: fastify.Request, reply: fastify.Reply) => {
+  fastify.post('/save', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
     const data = request.body.data;
 
     if (data) {
@@ -93,8 +93,8 @@ const router = (fastify, { }, next) => {
 
   })
 
-  fastify.post('/delete', async (request: fastify.Request, reply: fastify.Reply) => {
-    const uid = request.body.uid || 0;
+  fastify.delete('/delete/:uid', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
+    const uid = request.params.uid || 0;
     try {
       const result: any = await usersModel.deleteUser(db, uid);
       reply.send({
