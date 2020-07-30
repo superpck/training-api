@@ -70,6 +70,9 @@ const router = (fastify, { }, next) => {
 
     if (data) {
       try {
+        if (data.password) {
+          data.password = crypto.createHash('sha256').update(data.password).digest('hex');
+        }
         const result: any = await usersModel.saveUser(db, data);
         reply.send({
           statusCode: HttpStatus.OK,
