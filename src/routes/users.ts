@@ -93,6 +93,22 @@ const router = (fastify, { }, next) => {
 
   })
 
+  fastify.post('/delete', async (request: fastify.Request, reply: fastify.Reply) => {
+    const uid = request.body.uid || 0;
+    try {
+      const result: any = await usersModel.deleteUser(db, uid);
+      reply.send({
+        statusCode: HttpStatus.OK,
+        result
+      });
+    } catch (error) {
+      reply.send({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message
+      });
+    }
+  })
+
   next();
 }
 
