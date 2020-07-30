@@ -3,6 +3,7 @@
 import * as Knex from 'knex';
 import * as fastify from 'fastify';
 import * as moment from 'moment';
+import * as HttpStatus from 'http-status-codes';
 import { UsersModel } from '../models/users';
 
 const crypto = require('crypto');
@@ -30,7 +31,7 @@ const router = (fastify, { }, next) => {
       try {
         const passwd = crypto.createHash('sha256').update(password).digest('hex');
         const rows: any = await usersModel.login(db, username, passwd);
-        if (rows.length) {
+        if (rows.length > 0) {
           const row = rows[0];
           const payload = {
             fullname: row.prename + row.fname + ' ' + row.lname,
@@ -42,24 +43,24 @@ const router = (fastify, { }, next) => {
           const token = fastify.jwt.sign(payload, { expiresIn: '8h' });
 
           reply.send({
-            statusCode: 200,
+            statusCode: HttpStatus.OK,
             token
           });
 
         } else {
           reply.send({
-            statusCode: 400, message: 'Incorrect username or password'
+            statusCode: HttpStatus.BAD_REQUEST, message: 'Incorrect username or password'
           });
         }
       } catch (error) {
         reply.send({
-          statusCode: 500, message: error.message
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: error.message
         });
       }
 
     } else {
       reply.send({
-        statusCode: 400, message: 'Invalid username or password'
+        statusCode: HttpStatus.BAD_REQUEST, message: 'Invalid username or password'
       });
     }
   })
