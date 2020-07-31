@@ -15,7 +15,6 @@
     "fastify-formbody": "^3.2.0",
     "fastify-helmet": "^3.0.2",
     "fastify-jwt": "^1.4.0",
-    "fastify-knexjs": "^1.0.14",
     "fastify-no-icon": "^3.0.0",
     "fastify-plugin": "^2.0.3",
     "fastify-rate-limit": "^3.0.1",
@@ -33,7 +32,7 @@
     "@types/jsonwebtoken": "^7.2.8",
     "@types/knex": "^0.14.24",
     "@types/node": "^10.17.28",
-    "nodemon": "^1.18.4",
+    "nodemon": "^2.0.4",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   }
