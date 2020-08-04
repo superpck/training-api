@@ -12,7 +12,7 @@ export class UsersModel {
       .where(where)
       .orderBy('fname')
       .orderBy('lname')
-      .limit(5);
+      .limit(100);
 
   }
 
