@@ -13,14 +13,22 @@ var usersModel = new UsersModel();
 const router = (fastify, { }, next) => {
   var db: Knex = fastify.db;
 
-  fastify.post('/', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
+  fastify.post('/', { preHandler: [fastify.authenticate] }, async (request: fastify.Request, reply: fastify.Reply) => {
     const column = request.body.column;
     const value = request.body.value;
 
-    const usersList: any = await usersModel.getUser(db, column, value);
-    reply.send({
-      rows: usersList,
-    });
+    try {
+      const usersList: any = await usersModel.getUser(db, column, value);
+      reply.send({
+        statusCode: HttpStatus.OK,
+        rows: usersList
+      });
+    } catch (error) {
+      reply.send({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message
+      });
+    }
   })
 
   fastify.post('/login', async (request: fastify.Request, reply: fastify.Reply) => {
@@ -65,7 +73,7 @@ const router = (fastify, { }, next) => {
     }
   })
 
-  fastify.post('/save', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
+  fastify.post('/save', { preHandler: [fastify.authenticate] }, async (request: fastify.Request, reply: fastify.Reply) => {
     const data = request.body.data;
 
     if (data) {
@@ -93,7 +101,7 @@ const router = (fastify, { }, next) => {
 
   })
 
-  fastify.delete('/delete/:uid', { preHandler: [ fastify.authenticate ] }, async (request: fastify.Request, reply: fastify.Reply) => {
+  fastify.delete('/delete/:uid', { preHandler: [fastify.authenticate] }, async (request: fastify.Request, reply: fastify.Reply) => {
     const uid = request.params.uid || 0;
     try {
       const result: any = await usersModel.deleteUser(db, uid);
